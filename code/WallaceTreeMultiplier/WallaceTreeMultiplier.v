@@ -38,18 +38,21 @@ end
 
 WallaceTree MULLL(temp1,temp2,tempres);
 
-always @(posedge CLK,negedge RESET)
+always @(posedge CLK or negedge RESET)
 begin
-	if(RESET == 1'b0)
-		Z = 64'b0;
-	else
-		Z = tempres;
+    if (RESET == 1'b0)
+        Z = 64'b0;
+    else
+    begin
+        Z = tempres;
 
-	if(X[31]!=Y[31])
-		begin
-			Z = ~Z + 1;
-		end
+        if (X[31] != Y[31])
+        begin
+            Z = ~Z + 1;
+        end
+    end
 end
+
 endmodule 
 
 
@@ -60,9 +63,41 @@ output [63:0] res
 );
 
 
-wire [31:0][63:0]temppp;
-	PartialMULLLiplication partialMULLLiplications(temppp,a,b);
+wire  [63:0]temppp [31:0];
 
+
+PartialMULLLiplication partialMULLLiplications1(temppp[0][63:0],a[31:0],b[31:0],0);
+PartialMULLLiplication partialMULLLiplications2(temppp[1][63:0],a[31:0],b[31:0],1);
+PartialMULLLiplication partialMULLLiplications3(temppp[2][63:0],a[31:0],b[31:0],2);
+PartialMULLLiplication partialMULLLiplications4(temppp[3][63:0],a[31:0],b[31:0],3);
+PartialMULLLiplication partialMULLLiplications5(temppp[4][63:0],a[31:0],b[31:0],4);
+PartialMULLLiplication partialMULLLiplications6(temppp[5][63:0],a[31:0],b[31:0],5);
+PartialMULLLiplication partialMULLLiplications7(temppp[6][63:0],a[31:0],b[31:0],6);
+PartialMULLLiplication partialMULLLiplications8(temppp[7][63:0],a[31:0],b[31:0],7);
+PartialMULLLiplication partialMULLLiplications9(temppp[8][63:0],a[31:0],b[31:0],8);
+PartialMULLLiplication partialMULLLiplications10(temppp[9][63:0],a[31:0],b[31:0],9);
+PartialMULLLiplication partialMULLLiplications11(temppp[10][63:0],a[31:0],b[31:0],10);
+PartialMULLLiplication partialMULLLiplications111(temppp[11][63:0],a[31:0],b[31:0],11);
+PartialMULLLiplication partialMULLLiplications1111(temppp[12][63:0],a[31:0],b[31:0],12);
+PartialMULLLiplication partialMULLLiplications11111(temppp[13][63:0],a[31:0],b[31:0],13);
+PartialMULLLiplication partialMULLLiplications111111(temppp[14][63:0],a[31:0],b[31:0],14);
+PartialMULLLiplication partialMULLLiplications1111111(temppp[15][63:0],a[31:0],b[31:0],15);
+PartialMULLLiplication partialMULLLiplications11111111(temppp[16][63:0],a[31:0],b[31:0],16);
+PartialMULLLiplication partialMULLLiplications111111111(temppp[17][63:0],a[31:0],b[31:0],17);
+PartialMULLLiplication partialMULLLiplications88(temppp[18][63:0],a[31:0],b[31:0],18);
+PartialMULLLiplication partialMULLLiplications888(temppp[19][63:0],a[31:0],b[31:0],19);
+PartialMULLLiplication partialMULLLiplications88888(temppp[20][63:0],a[31:0],b[31:0],20);
+PartialMULLLiplication partialMULLLiplications8888(temppp[21][63:0],a[31:0],b[31:0],21);
+PartialMULLLiplication partialMULLLiplications6666(temppp[22][63:0],a[31:0],b[31:0],22);
+PartialMULLLiplication partialMULLLiplications666666(temppp[23][63:0],a[31:0],b[31:0],23);
+PartialMULLLiplication partialMULLLiplications6666666(temppp[24][63:0],a[31:0],b[31:0],24);
+PartialMULLLiplication partialMULLLiplications66666666(temppp[25][63:0],a[31:0],b[31:0],25);
+PartialMULLLiplication partialMULLLiplications666666666(temppp[26][63:0],a[31:0],b[31:0],26);
+PartialMULLLiplication partialMULLLiplications66666666666(temppp[27][63:0],a[31:0],b[31:0],27);
+PartialMULLLiplication partialMULLLiplications88888888888888(temppp[28][63:0],a[31:0],b[31:0],28);
+PartialMULLLiplication partialMULLLiplications777777777777777(temppp[29][63:0],a[31:0],b[31:0],29);
+PartialMULLLiplication partialMULLLiplications777(temppp[30][63:0],a[31:0],b[31:0],30);
+PartialMULLLiplication partialMULLLiplications777777(temppp[31][63:0],a[31:0],b[31:0],31);
 
 wire [63:0] s11,s12,s13,s14,s15,s16,s17,s18,s19,s110,c11,c12,c13,c14,c15,c16,c17,c18,c19,c110;
 wire [63:0] s21,s22,s23,s24,s25,s26,s27,c21,c22,c23,c24,c25,c26,c27;
@@ -126,25 +161,26 @@ assign c[63:1] = (x[63:0]&y[63:0]) | (y[63:0]&z[63:0]) | (z[63:0]&x[63:0]);
 
 endmodule
 
-
 module PartialMULLLiplication(
-	output reg[31:0][63:0] x,
-	input [31:0]a,
-	input [31:0]b);
-	integer i;
-	always @(a or b)
-	begin
-	for(i=0; i<32; i=i+1)
-	begin
-	if(b[i] === 1)
-	begin
-		x[i] <= (a << i);
-	end
-	else
-		x[i] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
-	end
-	end
+    output reg[63:0] x,
+    input [31:0] a,
+    input [31:0] b,
+    input wire [31:0] i
+);
+    always @(a or b or i)
+    begin
+        if (b[i] == 1)
+            x <= (a << i);
+        else
+            x = 64'b0;
+    end
 endmodule
+
+
+
+
+
+
 
 
 
@@ -221,4 +257,3 @@ and(w, Yi, Xii);
 or(X, w, Xi);
 and(Y, Yi, Yii);
 endmodule
-
