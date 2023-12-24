@@ -6,50 +6,23 @@ module SimpleMultiplier (
     output signed [63:0] Z
 );
 
-wire signed [31:0] activeX;
-wire signed [31:0] activeY;
+reg signed [31:0] activeX;
+reg signed [31:0] activeY;
 wire signed [63:0] intermediateZ;
 
-RegisterInput R1(.clk(clk), .rst(rst), .in(X), .out(activeX));
-RegisterInput R2(.clk(clk), .rst(rst), .in(Y), .out(activeY));
+always @(posedge(clk) or posedge(rst)) begin
+    if (rst) begin
+        activeX = 0;
+        activeY = 0;
+        Z = 0;
+    end
+    else begin
+        activeX = X;
+        activeY = Y;
+        Z = intermediateZ;
+    end
+end
 
 assign intermediateZ = activeX*activeY;
-
-RegisterOuput R3(.clk(clk), .rst(rst), .in(intermediateZ), .out(Z));
-
-endmodule
-
-
-module RegisterInput (
-    input clk,
-    input rst,
-    input signed [31:0] in,
-    output reg signed [31:0] out
-);
-
-always @ (posedge(clk), rst) begin
-    if (rst) begin
-        out = 0;
-    end else begin
-        out = in;
-    end
-end
-
-endmodule
-
-module RegisterOuput (
-    input clk,
-    input rst,
-    input signed [63:0] in,
-    output reg signed [63:0] out
-);
-
-always @ (posedge(clk), rst) begin
-    if (rst) begin
-        out = 0;
-    end else begin
-        out = in;
-    end
-end
 
 endmodule
